@@ -5,10 +5,21 @@
 
 using namespace std;
 
+void UI_hello(){
+    cout << ("H   H    EEEEE   L       L        OOOOO\n");
+    cout << ("H   H    E       L       L       O     O\n");
+    cout << ("H   H    E       L       L       O     O\n");
+    cout << ("HHHHH    EEEEE   L       L       O     O\n");
+    cout << ("H   H    E       L       L       O     O\n");
+    cout << ("H   H    E       L       L       O     O\n");
+    cout << ("H   H    EEEEE   LLLLL   LLLLL    OOOOO\n\n");
+}
+
 void UI_name(short clear){
     if(clear == 1){system("cls");}
     cout << "\n\t\t\\__________________/ \n\t\t/                  \\ \n\t\t|| @ gonna hunt A ||\n\t\t\\__________________/ \n\t\t/                  \\  .o@< .oA \n\n";
 }
+
 void UI_cover(string option){
     if(option.compare("upper") == 0){cout << "                                               \\ \n ____________________________________________/_/\n/\n\n";}
     if(option.compare("lower") == 0){cout << "\n\n\\____________________________________________.o@< .oA";}
@@ -35,7 +46,10 @@ void UI_loadingBar(){
 }
 
 int main(){
+    UI_hello();
+    this_thread::sleep_for(chrono::milliseconds(1000));
     UI_name(1);
+    this_thread::sleep_for(chrono::milliseconds(200));
     UI_loadingBar();
     UI_cover("upper");
     cout << "\tPress Enter..\n\n\n"; getchar();
