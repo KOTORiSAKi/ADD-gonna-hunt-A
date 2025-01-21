@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <thread>
 #include <chrono>
+#include <string>
 
 using namespace std;
 
@@ -50,6 +51,7 @@ void UI_loadingBar(){
 
 //------------------
 void startMenu();//*rendered start menu and require the chosen
+void credits();//*to reveal credits aboutu this project
 //------------------
 
 int main(){
@@ -76,8 +78,34 @@ void startMenu(){
              << "\t3] Credits" << endl << endl;
         FUNC_delay(200);
         if(checker_1st_time == 1){checker_1st_time = 0; cout << "\t\t! [Only 1 - 3]" << endl;}
-        cout << "\t\t=] "; getline(cin,choice1);
-        if(choice1.compare("1") == 0 || choice1.compare("2") == 0 || choice1.compare("3") == 0){break;}
+        cout << "\t\t=] "; cin >> choice1;
+        if(choice1[0] == '1' || choice1[0] == '2' || choice1[0] == '3'){getchar(); break;}
         checker_1st_time = 1;
     }
+    switch(choice1[0]){
+        case '1':
+        //
+        break;
+        case '2':
+        //
+        break;
+        case '3':
+        credits();
+        break;
+    }
+}
+
+void credits(){
+    system("cls");//!clear
+    cout << "/====================================\\" << endl;
+    cout << " Credits about this project           " << endl;
+    cout << " named \"@ gonna hunt A\"               " << endl;
+    cout << " ------------------------------------ " << endl;
+    cout << " Owner : Saki (Kitartist Riabroi)     " << endl;
+    cout << " Discord ID : @kotorisaki             " << endl;
+    cout << " Github : KOTORiSAKi                  " << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(200);
+    cout << endl << endl << "Press Enter.."; getchar();
+    startMenu();
 }
