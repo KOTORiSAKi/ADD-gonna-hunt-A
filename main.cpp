@@ -25,19 +25,18 @@ void UI_name(short clear){
 }
 
 void UI_cover(string option){
-    if(option.compare("upper") == 0){cout << "                                               \\ \n ____________________________________________/_/\n/\n\n";}
+    if(option.compare("upper") == 0){cout << "                                               \\ \n ____________________________________________/_/\n/\n";}
     if(option.compare("lower") == 0){cout << "\n\n\\____________________________________________.o@< .oA";}
 }
 
 void UI_loadingBar(){
-    const int total_steps = 50;
+    const int total_steps = 35;
     int current_step = 0;
     cout << "Loading...";
     while (current_step <= total_steps) {
         cout << "\rLoading[" << string(current_step, '>') << string(total_steps - current_step, ' ') << "]"; 
-        cout.flush(); 
-
-        this_thread::sleep_for(chrono::milliseconds(50)); // Adjust sleep duration for loading speed
+        cout.flush();
+        this_thread::sleep_for(chrono::milliseconds(50));
         current_step++;
     }
     cout << "\r[";
@@ -61,7 +60,7 @@ int main(){
     FUNC_delay(200);
     UI_loadingBar();
     UI_cover("upper");
-    cout << "\tPress Enter..\n\n\n"; getchar();
+    cout << "\n\tPress Enter..\n\n\n"; getchar();
     //----------------------
     startMenu();
 }
@@ -72,14 +71,16 @@ void startMenu(){
     while(1){
         system("cls");//!clear
         UI_cover("upper");
+        cout << "  START MENU" << endl << endl;
         if(checker_1st_time != 1){FUNC_delay(200);}
         cout << "\t1] Guider gameplay" << endl
              << "\t2] Start match" << endl
-             << "\t3] Credits" << endl << endl;
+             << "\t3] Credits" << endl
+             << "\t4] Leave" << endl << endl;
         FUNC_delay(200);
         if(checker_1st_time == 1){checker_1st_time = 0; cout << "\t\t! [Only 1 - 3]" << endl;}
         cout << "\t\t=] "; cin >> choice1;
-        if(choice1[0] == '1' || choice1[0] == '2' || choice1[0] == '3'){getchar(); break;}
+        if(choice1[0] == '1' || choice1[0] == '2' || choice1[0] == '3' || choice1[0] == '4'){getchar(); break;}
         checker_1st_time = 1;
     }
     switch(choice1[0]){
@@ -91,6 +92,9 @@ void startMenu(){
         break;
         case '3':
         credits();
+        break;
+        case '4':
+        exit(0);
         break;
     }
 }
