@@ -78,17 +78,18 @@ void startMenu(){
              << "\t3] Credits" << endl
              << "\t4] Leave" << endl << endl;
         FUNC_delay(200);
-        if(checker_1st_time == 1){checker_1st_time = 0; cout << "\t\t! [Only 1 - 3]" << endl;}
+        if(checker_1st_time == 1){checker_1st_time = 0; cout << "\t\t! [Only 1 - 4]" << endl;}
         cout << "\t\t=] "; cin >> choice1;
-        if(choice1[0] == '1' || choice1[0] == '2' || choice1[0] == '3' || choice1[0] == '4'){getchar(); break;}
+        if(choice1.compare("1") == 0 || choice1.compare("2") == 0 
+        || choice1.compare("3") == 0 || choice1.compare("4") == 0){getchar(); break;}
         checker_1st_time = 1;
     }
     switch(choice1[0]){
         case '1':
-        //
+        startMenu();
         break;
         case '2':
-        //
+        startMenu();
         break;
         case '3':
         credits();
