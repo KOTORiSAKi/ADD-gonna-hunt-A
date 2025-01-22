@@ -36,7 +36,7 @@ void UI_loadingBar(){
     while (current_step <= total_steps) {
         cout << "\rLoading[" << string(current_step, '>') << string(total_steps - current_step, ' ') << "]"; 
         cout.flush();
-        this_thread::sleep_for(chrono::milliseconds(50));
+        this_thread::sleep_for(chrono::milliseconds(10));
         current_step++;
     }
     cout << "\r[";
