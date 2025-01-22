@@ -8,6 +8,17 @@ using namespace std;
 
 void FUNC_delay(int mili){this_thread::sleep_for(chrono::milliseconds(mili));}
 
+void UI_exit(){
+    system("cls");//!clear
+    for(int i = 8; i > 0; --i){
+        cout << "                                               \\ \n ____________________________________________/_/\n/\n";
+        for(int j = 1; j <= i; j++){cout << endl;}
+        cout << "\____________________________________________.o@< .oA";
+        this_thread::sleep_for(chrono::milliseconds(50));system("cls");//!clear
+    }
+    exit(0);
+}
+
 void UI_hello(){
     system("cls");//!clear
     cout << ("H   H    EEEEE   L       L        OOOOO\n");
@@ -85,17 +96,13 @@ void startMenu(){
         checker_1st_time = 1;
     }
     switch(choice1[0]){
-        case '1':
-        startMenu();
+        case '1':startMenu();
         break;
-        case '2':
-        startMenu();
+        case '2':startMenu();
         break;
-        case '3':
-        credits();
+        case '3':credits();
         break;
-        case '4':
-        exit(0);
+        case '4':UI_exit();
         break;
     }
 }
@@ -120,5 +127,13 @@ void credits(){
     cout << "\\====================================/" << endl;
     FUNC_delay(100);
     cout << endl << endl << "Press Enter.."; getchar();
+    system("cls");//!clear
+    cout << "\n/====================================\\" << endl;
+    cout << "\n\n\n\\====================================/" << endl;
+    FUNC_delay(200);
+        system("cls");//!clear
+    cout << "\n\n\n/====================================\\" << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(400);
     startMenu();
 }
