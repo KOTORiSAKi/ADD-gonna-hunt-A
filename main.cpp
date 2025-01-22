@@ -10,11 +10,13 @@ void FUNC_delay(int mili){this_thread::sleep_for(chrono::milliseconds(mili));}
 
 void UI_exit(){
     system("cls");//!clear
-    for(int i = 8; i > 0; --i){
+    for(int i = 8; i >= 0; --i){
         cout << "                                               \\ \n ____________________________________________/_/\n/\n";
         for(int j = 1; j <= i; j++){cout << endl;}
-        cout << "\____________________________________________.o@< .oA";
-        this_thread::sleep_for(chrono::milliseconds(50));system("cls");//!clear
+        cout << "\\____________________________________________.o@< .oA";
+        this_thread::sleep_for(chrono::milliseconds(50));
+        if(i != 0){system("cls");}
+        else if(i == 0){this_thread::sleep_for(chrono::milliseconds(200)); system("cls");}
     }
     exit(0);
 }
