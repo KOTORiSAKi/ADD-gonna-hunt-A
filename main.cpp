@@ -101,6 +101,14 @@ void startMenu(){
 
 void credits(){
     system("cls");//!clear
+    cout << "\n\n\n/====================================\\" << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "\n/====================================\\" << endl;
+    cout << "\n\n\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
     cout << "/====================================\\" << endl;
     cout << " Credits about this project           " << endl;
     cout << " named \"@ gonna hunt A\"               " << endl;
@@ -109,7 +117,7 @@ void credits(){
     cout << " Discord ID : @kotorisaki             " << endl;
     cout << " Github : KOTORiSAKi                  " << endl;
     cout << "\\====================================/" << endl;
-    FUNC_delay(200);
+    FUNC_delay(100);
     cout << endl << endl << "Press Enter.."; getchar();
     startMenu();
 }
