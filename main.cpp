@@ -64,6 +64,20 @@ void UI_loadingBar(){
 //------------------
 void startMenu();//*rendered start menu and require the chosen
 void credits();//*to reveal credits aboutu this project
+void choosingMode();//*to choose mode before start playing
+//------------------
+
+//------------------
+class map{
+    public:
+    int easy_map[36] = {1,1,1,1,1,1,
+                        1,0,0,0,0,1,
+                        1,0,1,1,0,1,
+                        1,0,1,0,0,1,
+                        1,0,0,0,0,1,
+                        1,1,1,1,1,1};
+    //todo: learn more about class and arraying for mapping
+};
 //------------------
 
 int main(){
@@ -138,4 +152,9 @@ void credits(){
     cout << "\\====================================/" << endl;
     FUNC_delay(400);
     startMenu();
+}
+
+void choosingMode(){
+    system("cls");//!clear
+    
 }
