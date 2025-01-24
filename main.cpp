@@ -114,7 +114,7 @@ void startMenu(){
     switch(choice1[0]){
         case '1':startMenu();
         break;
-        case '2':startMenu();
+        case '2':choosingMode();
         break;
         case '3':credits();
         break;
@@ -155,6 +155,32 @@ void credits(){
 }
 
 void choosingMode(){
-    system("cls");//!clear
-    
+    string choice1;
+    int checker_1st_time = 0;
+    while(1){
+        system("cls");//!clear
+        if(checker_1st_time != 1){FUNC_delay(200);}
+        UI_cover("upper");
+        cout << "  CHOOSING MODE" << endl << endl; 
+        cout << "\t1] Easy" << endl
+             << "\t2] Medium" << endl
+             << "\t3] Hard\n" << endl
+             << "\t4] Back" << endl;
+        FUNC_delay(200);
+        if(checker_1st_time == 1){checker_1st_time = 0; cout << "\t\t! [Only 1 - 4]" << endl;}
+        cout << "\t\t=] "; cin >> choice1;
+        if(choice1.compare("1") == 0 || choice1.compare("2") == 0 
+        || choice1.compare("3") == 0 || choice1.compare("4") == 0){getchar(); break;}
+        checker_1st_time = 1;
+    }
+    switch(choice1[0]){
+        case '1':choosingMode();
+        break;
+        case '2':choosingMode();
+        break;
+        case '3':choosingMode();
+        break;
+        case '4':startMenu();
+        break;
+    }
 }
