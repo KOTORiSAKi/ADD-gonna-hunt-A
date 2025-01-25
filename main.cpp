@@ -69,7 +69,7 @@ void UI_loadingBar(){
 void startMenu();//*rendered start menu and require the chosen
 void credits();//*to reveal credits aboutu this project
 void choosingMode();//*to choose mode before start playing
-void main_logic();//*easy mode logics
+void main_logic(short);//*easy mode logics
 //------------------
 
 //------------------
@@ -188,34 +188,39 @@ void choosingMode(){
         checker_1st_time = 1;
     }
     switch(choice1[0]){
-        case '1':main_logic();
+        case '1':main_logic((short)1);
         break;
-        case '2':choosingMode();
+        case '2':main_logic((short)2);
         break;
-        case '3':choosingMode();
+        case '3':main_logic((short)3);
         break;
         case '4':startMenu();
         break;
     }
 }
 
-void main_logic(){
+void main_logic(short lvl){
     system("cls");//!clear
+    //-------------------
+    short rate[4] = {0,10,40,75};
+    short maxSpace[4] = {0,7,12,17}; 
+    //-------------------
     string choice1;
-    short maxSpace = 7, count;
+    short activated;
+    short count;
     cout << "Generating..";
     loop:
     count = 0;
     while(1){
-        address_A[0] = rand()%maxSpace+1;
-        address_A[1] = rand()%maxSpace+1;
+        address_A[0] = rand()%maxSpace[lvl]+1;
+        address_A[1] = rand()%maxSpace[lvl]+1;
         ++count;
         if(count >= 5){goto loop;}
         if(easy_map[address_A[0]][address_A[1]] == 0){break;}
     }count = 0;
     while(1){
-        address_ad[0] = rand()%maxSpace+1;
-        address_ad[1] = rand()%maxSpace+1;
+        address_ad[0] = rand()%maxSpace[lvl]+1;
+        address_ad[1] = rand()%maxSpace[lvl]+1;
         ++count;
         if(count >= 5){goto loop;}
         if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
@@ -223,8 +228,8 @@ void main_logic(){
            && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
     }count = 0;
     while(1){
-        address_end[0] = rand()%maxSpace+1;
-        address_end[1] = rand()%maxSpace+1;
+        address_end[0] = rand()%maxSpace[lvl]+1;
+        address_end[1] = rand()%maxSpace[lvl]+1;
         ++count;
         if(count >= 5){goto loop;}
         if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
@@ -233,10 +238,10 @@ void main_logic(){
            && address_end[0] != address_ad[0] && address_end[1] != address_ad[1]){break;}
     }count = 0;
     //--------------------
+    system("cls");//!clear
     while(1){
-        system("cls");//!clear
-        for(int y = 1; y <= maxSpace; y++){
-           for(int x = 1; x <= maxSpace; x++){
+        for(int y = 1; y <= maxSpace[lvl]; y++){
+           for(int x = 1; x <= maxSpace[lvl]; x++){
                 if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
                 else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
                 else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
@@ -244,32 +249,36 @@ void main_logic(){
                 else if(easy_map[y][x] == 0){cout << ".   ";}
             }cout << endl << endl;
         }
-        char input; while (1) {
+        activated = 0;
+        char input; while(1){
         input = _getch();
-        cout << input << endl;
         switch (input) {
             case 'w':
             case 'W':
-                std::cout << "Moving Up\n";
+                system("cls");//!cle9ar
+                if()
                 break;
             case 'a':
             case 'A':
-                std::cout << "Moving Left\n";
+                system("cls");//!clear
                 break;
             case 's':
             case 'S':
-                std::cout << "Moving Down\n";
+                system("cls");//!clear
                 break;
             case 'd':
             case 'D':
-                std::cout << "Moving Right\n";
+                system("cls");//!clear
                 break;
-            case 27:
-                goto break_loop;
+            case 27://escape
+                startMenu();
             default:
-                std::cout << "Invalid input\n";
+                system("cls");//!clear
                 break;
             }
         }
-    }break_loop:
+
+    }
+    //--------------------
+
 }
