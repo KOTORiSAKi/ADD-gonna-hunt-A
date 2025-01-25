@@ -255,8 +255,8 @@ void main_logic(short lvl){
         switch (input) {
             case 'w':
             case 'W':
-                system("cls");//!cle9ar
-                if()
+                system("cls");//!clear
+                //
                 break;
             case 'a':
             case 'A':
