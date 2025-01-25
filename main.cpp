@@ -256,7 +256,7 @@ void main_logic(short lvl){
             case 'w':
             case 'W':
                 system("cls");//!clear
-                //
+                if(easy_map[address_A[0]+1][address_A[0]] == 1){}
                 break;
             case 'a':
             case 'A':
