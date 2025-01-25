@@ -3,6 +3,10 @@
 #include <thread>
 #include <chrono>
 #include <string>
+#include <time.h>
+#include <stdlib.h>
+#include <math.h>
+#include <conio.h>
 
 using namespace std;
 
@@ -65,22 +69,32 @@ void UI_loadingBar(){
 void startMenu();//*rendered start menu and require the chosen
 void credits();//*to reveal credits aboutu this project
 void choosingMode();//*to choose mode before start playing
+void main_logic();//*easy mode logics
 //------------------
 
 //------------------
 class map{
     public:
-    int easy_map[36] = {1,1,1,1,1,1,
-                        1,0,0,0,0,1,
-                        1,0,1,1,0,1,
-                        1,0,1,0,0,1,
-                        1,0,0,0,0,1,
-                        1,1,1,1,1,1};
     //todo: learn more about class and arraying for mapping
 };
 //------------------
+char door = 219;
+int address_ad[2];
+int address_A[2];
+int address_end[2];
+int easy_map[8][8] = {{0},
+                      {0,1,1,1,1,1,1,1},
+                      {0,1,0,0,0,0,0,1},
+                      {0,1,0,0,1,0,0,1},
+                      {0,1,0,1,0,0,0,1},
+                      {0,1,0,0,0,0,1,1},
+                      {0,1,0,0,0,0,1,1},
+                      {0,1,1,1,1,1,1,1}};
+//------------------
 
 int main(){
+    srand(time(0));
+    //---------------------
     UI_hello();
     FUNC_delay(1000);
     UI_name(1);
@@ -174,7 +188,7 @@ void choosingMode(){
         checker_1st_time = 1;
     }
     switch(choice1[0]){
-        case '1':choosingMode();
+        case '1':main_logic();
         break;
         case '2':choosingMode();
         break;
@@ -183,4 +197,79 @@ void choosingMode(){
         case '4':startMenu();
         break;
     }
+}
+
+void main_logic(){
+    system("cls");//!clear
+    string choice1;
+    short maxSpace = 7, count;
+    cout << "Generating..";
+    loop:
+    count = 0;
+    while(1){
+        address_A[0] = rand()%maxSpace+1;
+        address_A[1] = rand()%maxSpace+1;
+        ++count;
+        if(count >= 5){goto loop;}
+        if(easy_map[address_A[0]][address_A[1]] == 0){break;}
+    }count = 0;
+    while(1){
+        address_ad[0] = rand()%maxSpace+1;
+        address_ad[1] = rand()%maxSpace+1;
+        ++count;
+        if(count >= 5){goto loop;}
+        if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
+        else if(easy_map[address_ad[0]][address_ad[1]] == 0
+           && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
+    }count = 0;
+    while(1){
+        address_end[0] = rand()%maxSpace+1;
+        address_end[1] = rand()%maxSpace+1;
+        ++count;
+        if(count >= 5){goto loop;}
+        if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
+        else if(easy_map[address_end[0]][address_end[1]] == 0
+           && address_end[0] != address_A[0] && address_end[1] != address_A[1]
+           && address_end[0] != address_ad[0] && address_end[1] != address_ad[1]){break;}
+    }count = 0;
+    //--------------------
+    while(1){
+        system("cls");//!clear
+        for(int y = 1; y <= maxSpace; y++){
+           for(int x = 1; x <= maxSpace; x++){
+                if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
+                else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
+                else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
+                else if(easy_map[y][x] == 1){cout << "#   ";}
+                else if(easy_map[y][x] == 0){cout << ".   ";}
+            }cout << endl << endl;
+        }
+        char input; while (1) {
+        input = _getch();
+        cout << input << endl;
+        switch (input) {
+            case 'w':
+            case 'W':
+                std::cout << "Moving Up\n";
+                break;
+            case 'a':
+            case 'A':
+                std::cout << "Moving Left\n";
+                break;
+            case 's':
+            case 'S':
+                std::cout << "Moving Down\n";
+                break;
+            case 'd':
+            case 'D':
+                std::cout << "Moving Right\n";
+                break;
+            case 27:
+                goto break_loop;
+            default:
+                std::cout << "Invalid input\n";
+                break;
+            }
+        }
+    }break_loop:
 }
