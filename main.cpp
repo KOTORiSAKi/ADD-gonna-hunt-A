@@ -108,7 +108,7 @@ int main(){
 
 void startMenu(){
     string choice1;
-    int checker_1st_time = 0;
+    bool checker_1st_time = 0;
     while(1){
         system("cls");//!clear
         UI_cover("upper");
@@ -170,7 +170,7 @@ void credits(){
 
 void choosingMode(){
     string choice1;
-    int checker_1st_time = 0;
+    bool checker_1st_time = 0;
     while(1){
         system("cls");//!clear
         if(checker_1st_time != 1){FUNC_delay(200);}
@@ -206,7 +206,6 @@ void main_logic(short lvl){
     short maxSpace[4] = {0,7,12,17}; 
     //-------------------
     string choice1;
-    short activated;
     short count;
     cout << "Generating..";
     loop:
@@ -249,7 +248,6 @@ void main_logic(short lvl){
                 else if(easy_map[y][x] == 0){cout << ".   ";}
             }cout << endl << endl;
         }
-        activated = 0;
         char input; while(1){
         input = _getch();
         switch (input) {
