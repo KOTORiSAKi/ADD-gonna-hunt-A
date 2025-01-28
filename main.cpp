@@ -75,21 +75,23 @@ void main_logic(short);//*easy mode logics
 //------------------
 class map{
     public:
-    //todo: learn more about class and arraying for mapping
-};
-//------------------
-char door = 219;
-int address_ad[2];
-int address_A[2];
-int address_end[2];
-int easy_map[8][8] = {{0},
+    int easy[8][8] = {{0},
                       {0,1,1,1,1,1,1,1},
                       {0,1,0,0,0,0,0,1},
                       {0,1,0,0,1,0,0,1},
                       {0,1,0,1,0,0,0,1},
                       {0,1,0,0,0,0,1,1},
                       {0,1,0,0,0,0,1,1},
-                      {0,1,1,1,1,1,1,1}};
+                      {0,1,1,1,1,1,1,1}};  
+    int medium[13][13];
+    int hard[18][18];
+};
+//------------------
+char door = 219;
+short address_ad[2];
+short address_A[2];
+short address_end[2];
+
 //------------------
 
 int main(){
@@ -201,82 +203,90 @@ void choosingMode(){
 
 void main_logic(short lvl){
     system("cls");//!clear
+    map A;
     //-------------------
-    short rate[4] = {0,10,40,75};
+    short rate[4] = {0,10,40,60};
     short maxSpace[4] = {0,7,12,17}; 
     //-------------------
     string choice1;
     short count;
-    cout << "Generating..";
-    loop:
-    count = 0;
-    while(1){
-        address_A[0] = rand()%maxSpace[lvl]+1;
-        address_A[1] = rand()%maxSpace[lvl]+1;
-        ++count;
-        if(count >= 5){goto loop;}
-        if(easy_map[address_A[0]][address_A[1]] == 0){break;}
-    }count = 0;
-    while(1){
-        address_ad[0] = rand()%maxSpace[lvl]+1;
-        address_ad[1] = rand()%maxSpace[lvl]+1;
-        ++count;
-        if(count >= 5){goto loop;}
-        if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
-        else if(easy_map[address_ad[0]][address_ad[1]] == 0
-           && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
-    }count = 0;
-    while(1){
-        address_end[0] = rand()%maxSpace[lvl]+1;
-        address_end[1] = rand()%maxSpace[lvl]+1;
-        ++count;
-        if(count >= 5){goto loop;}
-        if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
-        else if(easy_map[address_end[0]][address_end[1]] == 0
-           && address_end[0] != address_A[0] && address_end[1] != address_A[1]
-           && address_end[0] != address_ad[0] && address_end[1] != address_ad[1]){break;}
-    }count = 0;
-    //--------------------
-    system("cls");//!clear
-    while(1){
-        for(int y = 1; y <= maxSpace[lvl]; y++){
-           for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
-                else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
-                else if(easy_map[y][x] == 1){cout << "#   ";}
-                else if(easy_map[y][x] == 0){cout << ".   ";}
-            }cout << endl << endl;
-        }
-        char input; while(1){
-        input = _getch();
-        switch (input) {
-            case 'w':
-            case 'W':
-                system("cls");//!clear
-                if(easy_map[address_A[0]+1][address_A[0]] == 1){}
-                break;
-            case 'a':
-            case 'A':
-                system("cls");//!clear
-                break;
-            case 's':
-            case 'S':
-                system("cls");//!clear
-                break;
-            case 'd':
-            case 'D':
-                system("cls");//!clear
-                break;
-            case 27://escape
-                startMenu();
-            default:
-                system("cls");//!clear
-                break;
+    switch(lvl){
+        case 1:
+        cout << "Generating..";
+        loop:
+        count = 0;
+        while(1){
+            address_A[0] = rand()%maxSpace[lvl]+1;
+            address_A[1] = rand()%maxSpace[lvl]+1;
+            ++count;
+            if(count >= 5){goto loop;}
+            if(A.easy[address_A[0]][address_A[1]] == 0){break;}
+        }count = 0;
+        while(1){
+            address_ad[0] = rand()%maxSpace[lvl]+1;
+            address_ad[1] = rand()%maxSpace[lvl]+1;
+            ++count;
+            if(count >= 5){goto loop;}
+            if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
+            else if(A.easy[address_ad[0]][address_ad[1]] == 0
+                && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
+        }count = 0;
+        while(1){
+            address_end[0] = rand()%maxSpace[lvl]+1;
+            address_end[1] = rand()%maxSpace[lvl]+1;
+            ++count;
+            if(count >= 5){goto loop;}
+            if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
+            else if(A.easy[address_end[0]][address_end[1]] == 0
+               && address_end[0] != address_A[0] && address_end[1] != address_A[1]
+               && address_end[0] != address_ad[0] && address_end[1] != address_ad[1]){break;}
+        }count = 0;
+        //--------------------
+        system("cls");//!clear
+        while(1){
+            for(int y = 1; y <= maxSpace[lvl]; y++){
+               for(int x = 1; x <= maxSpace[lvl]; x++){
+                    if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
+                    else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
+                    else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
+                    else if(A.easy[y][x] == 1){cout << "#   ";}
+                    else if(A.easy[y][x] == 0){cout << ".   ";}
+                }cout << endl << endl;
+            }
+            char input; while(1){
+            input = _getch();
+            switch (input) {
+                case 'w':
+                case 'W':
+                    system("cls");//!clear
+                if(A.easy[address_A[0]+1][address_A[0]] == 1){}
+                   break;
+                case 'a':
+                case 'A':
+                    system("cls");//!clear
+                    break;
+                case 's':
+                case 'S':
+                    system("cls");//!clear
+                    break;
+                case 'd':
+                case 'D':
+                    system("cls");//!clear
+                    break;
+                case 27://escape
+                    startMenu();
+                default:
+                    system("cls");//!clear
+                    break;
+                }
             }
         }
-
+        break;
+        //--------------------
+        case 2:
+        break;
+        //--------------------
+        case 3:
+        break;
     }
-    //--------------------
-
 }
