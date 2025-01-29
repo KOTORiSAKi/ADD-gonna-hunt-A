@@ -70,12 +70,14 @@ void startMenu();//*rendered start menu and require the chosen
 void credits();//*to reveal credits aboutu this project
 void choosingMode();//*to choose mode before start playing
 void main_logic(short);//*easy mode logics
+void render_map(short);//*to render map
+void win_game(short);//*when player win the game
 //------------------
 
 //------------------
 class map{
     public:
-    int easy[8][8] = {{0},
+    int easy[8][8] = {{0,0,0,0,0,0,0,0},
                       {0,1,1,1,1,1,1,1},
                       {0,1,0,0,0,0,0,1},
                       {0,1,0,0,1,0,0,1},
@@ -96,7 +98,7 @@ short address_end[2];
 
 int main(){
     srand(time(0));
-    //---------------------
+    //!---------------------
     UI_hello();
     FUNC_delay(1000);
     UI_name(1);
@@ -104,7 +106,7 @@ int main(){
     UI_loadingBar();
     UI_cover("upper");
     cout << "\n\tPress Enter..\n\n\n"; getchar();
-    //----------------------
+    //!----------------------
     startMenu();
 }
 
@@ -163,7 +165,7 @@ void credits(){
     cout << "\n/====================================\\" << endl;
     cout << "\n\n\n\\====================================/" << endl;
     FUNC_delay(200);
-        system("cls");//!clear
+    system("cls");//!clear
     cout << "\n\n\n/====================================\\" << endl;
     cout << "\\====================================/" << endl;
     FUNC_delay(400);
@@ -201,41 +203,56 @@ void choosingMode(){
     }
 }
 
+void render_map(short lvl){
+    map A;
+    short maxSpace[4] = {0,7,12,17};
+    for(int y = 1; y <= maxSpace[lvl]; y++){
+        for(int x = 1; x <= maxSpace[lvl]; x++){
+            if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
+            else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
+            else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
+            else if(A.easy[y][x] == 1){cout << "#   ";}
+            else if(A.easy[y][x] == 0){cout << ".   ";}
+        }cout << endl << endl;
+    }
+}
+
 void main_logic(short lvl){
     system("cls");//!clear
     map A;
     //-------------------
-    short rate[4] = {0,10,40,60};
+    short rate[4] = {0,10,30,60};
     short maxSpace[4] = {0,7,12,17}; 
     //-------------------
-    string choice1;
-    short count;
+    string choice1, choice2;
+    short count, click_counting = 0, rate_turn = 0;
+    bool checker;
     switch(lvl){
-        case 1:
+        case 1://?easy mode
         cout << "Generating..";
-        loop:
+        reset_data:
         count = 0;
-        while(1){
+        while(1){//random for A
             address_A[0] = rand()%maxSpace[lvl]+1;
             address_A[1] = rand()%maxSpace[lvl]+1;
             ++count;
-            if(count >= 5){goto loop;}
+            if(count >= 5){goto reset_data;}
             if(A.easy[address_A[0]][address_A[1]] == 0){break;}
         }count = 0;
-        while(1){
+        while(1){//random for @
             address_ad[0] = rand()%maxSpace[lvl]+1;
             address_ad[1] = rand()%maxSpace[lvl]+1;
             ++count;
-            if(count >= 5){goto loop;}
+            if(count >= 5){goto reset_data;}
             if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
             else if(A.easy[address_ad[0]][address_ad[1]] == 0
                 && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
         }count = 0;
-        while(1){
+        while(1){//random for the door
             address_end[0] = rand()%maxSpace[lvl]+1;
             address_end[1] = rand()%maxSpace[lvl]+1;
             ++count;
-            if(count >= 5){goto loop;}
+            if(count >= 5){goto reset_data;}
             if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
             else if(A.easy[address_end[0]][address_end[1]] == 0
                && address_end[0] != address_A[0] && address_end[1] != address_A[1]
@@ -243,43 +260,56 @@ void main_logic(short lvl){
         }count = 0;
         //--------------------
         system("cls");//!clear
+        cout << "\n\n";
         while(1){
-            for(int y = 1; y <= maxSpace[lvl]; y++){
-               for(int x = 1; x <= maxSpace[lvl]; x++){
-                    if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
-                    else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
-                    else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
-                    else if(A.easy[y][x] == 1){cout << "#   ";}
-                    else if(A.easy[y][x] == 0){cout << ".   ";}
-                }cout << endl << endl;
-            }
-            char input; while(1){
+            error_usage:
+            render_map(lvl);
+            cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
+            char input; checker = 0;
             input = _getch();
             switch (input) {
                 case 'w':
                 case 'W':
                     system("cls");//!clear
-                if(A.easy[address_A[0]+1][address_A[0]] == 1){}
+                    if(A.easy[address_A[0]-1][address_A[1]] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    else{address_A[0] -= 1; click_counting++;}
                    break;
                 case 'a':
                 case 'A':
                     system("cls");//!clear
+                    if(A.easy[address_A[0]][address_A[1]-1] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    else{address_A[1] -= 1; click_counting++;}
                     break;
                 case 's':
                 case 'S':
                     system("cls");//!clear
+                    if(A.easy[address_A[0]+1][address_A[1]] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    else{address_A[0] += 1; click_counting++;}
                     break;
                 case 'd':
                 case 'D':
                     system("cls");//!clear
+                    if(A.easy[address_A[0]][address_A[1]+1] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    else{address_A[1] += 1; click_counting++;}
                     break;
                 case 27://escape
-                    startMenu();
+                    system("cls");//!clear
+                    while(1){
+                        cout << "Really want to leave? (y/n) : "; getline(cin,choice2);
+                        if(choice2.compare("y") == 0 || choice2.compare("n") == 0){break;}
+                    }
+                    switch(choice2[0]){
+                        case 'y': startMenu();
+                        case 'n': system("cls"); cout << "Welcome back!\n\n"; goto error_usage;
+                    }
                 default:
                     system("cls");//!clear
-                    break;
-                }
-            }
+                    cout << "Unable key!\n\n";
+                    goto error_usage;
+            }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){win_game(click_counting);}
+
+            //*BOT part--------------------
+            rate_turn = rand()%101;
         }
         break;
         //--------------------
@@ -289,4 +319,36 @@ void main_logic(short lvl){
         case 3:
         break;
     }
+}
+
+void win_game(short clicked){
+    system("cls");//!clear
+    cout << "\n\n\n/====================================\\" << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "\n/====================================\\" << endl;
+    cout << "\n\n\n\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "/====================================\\" << endl;
+    cout << "                                      " << endl;
+    cout << "               YOU WON!               " << endl;
+    cout << "                                      " << endl;
+    cout << "                                      " << endl;
+    if(clicked <= 9){cout << "  You moved " << clicked << " times to win this game  " << endl;}
+    else{cout << "  You moved " << clicked << " times to win this game " << endl;}
+    cout << "                                      " << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(100);
+    cout << endl << endl << "Press Enter.."; getchar();
+    system("cls");//!clear
+    cout << "\n/====================================\\" << endl;
+    cout << "\n\n\n\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "\n\n\n/====================================\\" << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(400);
+    startMenu();
 }
