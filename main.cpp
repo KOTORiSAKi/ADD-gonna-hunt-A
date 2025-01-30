@@ -70,8 +70,10 @@ void startMenu();//*rendered start menu and require the chosen
 void credits();//*to reveal credits aboutu this project
 void choosingMode();//*to choose mode before start playing
 void main_logic(short);//*easy mode logics
-void render_map(short);//*to render map
+void render_map(short,bool);//*to render map
+void bot_brain(short);//*processing of bot
 void win_game(short);//*when player win the game
+void loss_game();//*when player loss the game
 //------------------
 
 //------------------
@@ -203,12 +205,12 @@ void choosingMode(){
     }
 }
 
-void render_map(short lvl){
+void render_map(short lvl, bool losser){
     map A;
     short maxSpace[4] = {0,7,12,17};
     for(int y = 1; y <= maxSpace[lvl]; y++){
         for(int x = 1; x <= maxSpace[lvl]; x++){
-            if(address_A[0] == y && address_A[1] == x){cout << "   A";}
+            if(address_A[0] == y && address_A[1] == x && losser != 1){cout << "   A";}
             else if(address_ad[0] == y && address_ad[1] == x){cout << "   @";}
             else if(address_end[0] == y && address_end[1] == x){cout << "   " << door ;}
             else if(A.easy[y][x] == 1){cout << "   #";}
@@ -265,9 +267,9 @@ void main_logic(short lvl){
         cout << endl;
         while(1){
             error_usage:
-            render_map(lvl);
+            render_map(lvl,0);
             UI_cover("lower");
-            cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
+            //cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
             char input; checker = 0;
             input = _getch();
             switch (input) {
@@ -313,12 +315,11 @@ void main_logic(short lvl){
             }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << "\n";
-                render_map(lvl);
+                render_map(lvl,0);
+                UI_cover("lower");
                 FUNC_delay(500);
                 win_game(click_counting);
             }
-            UI_cover("upper");
-            cout << "\n";
 
             //*BOT part--------------------
             rate_turn = rand()%101;
@@ -329,8 +330,8 @@ void main_logic(short lvl){
                         if(fifty_rate >= 50){address_ad[0]++;}
                         else if(fifty_rate < 50){address_ad[1]++;}
                     }
-                    else if(A.easy[address_ad[0-1]][address_ad[1]] == 1){address_ad[1]--;}
-                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]++;}
+                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]--;}
+                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]--;}
                     else{
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]--;}
@@ -338,25 +339,107 @@ void main_logic(short lvl){
                     }
                 }
                 else if(address_A[1] > address_ad[1]){//back
+                    if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]++;}
+                        else if(fifty_rate < 50){address_ad[1]--;}
+                    }
+                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]++;}
+                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]--;}
+                    else{
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]--;}
+                        else if(fifty_rate < 50){address_ad[1]++;}
+                    }
                 }
                 else if(address_A[1] == address_ad[1]){//in line
+                    if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]++;}
+                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[1]--;}
+                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[1]++;}
+                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[1]--;}
+                        else if(fifty_rate < 50){address_ad[1]++;}
+                    }
+                    else{address_ad[0]--;}
                 }
             }
             else if(address_A[0] > address_ad[0]){//?lower
                 if(address_A[1] < address_ad[1]){//front
+                    if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]--;}
+                        else if(fifty_rate < 50){address_ad[1]++;}
+                    }
+                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]++;}
+                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[1]--;}
+                    else{
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]++;}
+                        else if(fifty_rate < 50){address_ad[1]--;}
+                    }
                 }
                 else if(address_A[1] > address_ad[1]){//back
+                if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]--;}
+                        else if(fifty_rate < 50){address_ad[1]--;}
+                    }
+                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[1]++;}
+                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]++;}
+                    else{
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]++;}
+                        else if(fifty_rate < 50){address_ad[1]++;}
+                    }
                 }
                 else if(address_A[1] == address_ad[1]){//in line
+                    if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]--;}
+                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[1]--;}
+                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[1]++;}
+                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[1]--;}
+                        else if(fifty_rate < 50){address_ad[1]++;}
+                    }
+                    else{address_ad[0]++;}
                 }
             }
             else if(address_A[0] == address_ad[0]){//?in line
                 if(address_A[1] < address_ad[1]){//front
+                    if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]++;}
+                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[0]--;}
+                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[0]++;}
+                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]++;}
+                        else if(fifty_rate < 50){address_ad[0]--;}
+                    }
+                    else{address_ad[1]--;}
                 }
                 else if(address_A[1] > address_ad[1]){//back
+                    if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]--;}
+                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[0]++;}
+                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[0]--;}
+                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]++;}
+                        else if(fifty_rate < 50){address_ad[0]--;}
+                    }
+                    else{address_ad[1]++;}
                 }
-                else if(address_A[1] == address_ad[1]){/*losser*/}
+            }if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
+                skip:
+                system("cls");//!clear
+                UI_cover("upper");
+                cout << "\n";
+                render_map(lvl,1);
+                UI_cover("lower");
+                FUNC_delay(500);
+                loss_game();
             }
+            UI_cover("upper");
+            cout << "\n";
         }
         break;
         //--------------------
@@ -385,6 +468,37 @@ void win_game(short clicked){
     cout << "                                      " << endl;
     if(clicked <= 9){cout << "  You moved " << clicked << " times to win this game  " << endl;}
     else{cout << "  You moved " << clicked << " times to win this game " << endl;}
+    cout << "                                      " << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(100);
+    cout << endl << endl << "Press Enter.."; getchar();
+    system("cls");//!clear
+    cout << "\n/====================================\\" << endl;
+    cout << "\n\n\n\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "\n\n\n/====================================\\" << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(400);
+    startMenu();
+}
+
+void loss_game(){
+        system("cls");//!clear
+    cout << "\n\n\n/====================================\\" << endl;
+    cout << "\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "\n/====================================\\" << endl;
+    cout << "\n\n\n\\====================================/" << endl;
+    FUNC_delay(200);
+    system("cls");//!clear
+    cout << "/====================================\\" << endl;
+    cout << "                                      " << endl;
+    cout << "              YOU LOSSED!               " << endl;
+    cout << "                                      " << endl;
+    cout << "                                      " << endl;
+    cout << "         You may try it again         " << endl;
     cout << "                                      " << endl;
     cout << "\\====================================/" << endl;
     FUNC_delay(100);
