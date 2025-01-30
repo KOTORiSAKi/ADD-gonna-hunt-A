@@ -208,11 +208,11 @@ void render_map(short lvl){
     short maxSpace[4] = {0,7,12,17};
     for(int y = 1; y <= maxSpace[lvl]; y++){
         for(int x = 1; x <= maxSpace[lvl]; x++){
-            if(address_A[0] == y && address_A[1] == x){cout << "A   ";}
-            else if(address_ad[0] == y && address_ad[1] == x){cout << "@   ";}
-            else if(address_end[0] == y && address_end[1] == x){cout << door << "   ";}
-            else if(A.easy[y][x] == 1){cout << "#   ";}
-            else if(A.easy[y][x] == 0){cout << ".   ";}
+            if(address_A[0] == y && address_A[1] == x){cout << "   A";}
+            else if(address_ad[0] == y && address_ad[1] == x){cout << "   @";}
+            else if(address_end[0] == y && address_end[1] == x){cout << "   " << door ;}
+            else if(A.easy[y][x] == 1){cout << "   #";}
+            else if(A.easy[y][x] == 0){cout << "   .";}
         }cout << endl << endl;
     }
 }
@@ -221,6 +221,7 @@ void main_logic(short lvl){
     system("cls");//!clear
     map A;
     //-------------------
+    short fifty_rate;
     short rate[4] = {0,10,30,60};
     short maxSpace[4] = {0,7,12,17}; 
     //-------------------
@@ -260,10 +261,12 @@ void main_logic(short lvl){
         }count = 0;
         //--------------------
         system("cls");//!clear
-        cout << "\n\n";
+        UI_cover("upper");
+        cout << endl;
         while(1){
             error_usage:
             render_map(lvl);
+            UI_cover("lower");
             cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
             char input; checker = 0;
             input = _getch();
@@ -271,25 +274,25 @@ void main_logic(short lvl){
                 case 'w':
                 case 'W':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]-1][address_A[1]] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    if(A.easy[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage;}
                     else{address_A[0] -= 1; click_counting++;}
                    break;
                 case 'a':
                 case 'A':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]][address_A[1]-1] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    if(A.easy[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage;}
                     else{address_A[1] -= 1; click_counting++;}
                     break;
                 case 's':
                 case 'S':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]+1][address_A[1]] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    if(A.easy[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage;}
                     else{address_A[0] += 1; click_counting++;}
                     break;
                 case 'd':
                 case 'D':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]][address_A[1]+1] == 1){cout << "Unable to go up there!\n\n"; goto error_usage;}
+                    if(A.easy[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage;}
                     else{address_A[1] += 1; click_counting++;}
                     break;
                 case 27://escape
@@ -300,16 +303,60 @@ void main_logic(short lvl){
                     }
                     switch(choice2[0]){
                         case 'y': startMenu();
-                        case 'n': system("cls"); cout << "Welcome back!\n\n"; goto error_usage;
+                        case 'n': system("cls"); UI_cover("upper"); cout << "Welcome back!\n"; goto error_usage;
                     }
                 default:
                     system("cls");//!clear
-                    cout << "Unable key!\n\n";
+                    UI_cover("upper");
+                    cout << "Unable key!\n";
                     goto error_usage;
-            }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){win_game(click_counting);}
+            }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
+                UI_cover("upper");
+                cout << "\n";
+                render_map(lvl);
+                FUNC_delay(500);
+                win_game(click_counting);
+            }
+            UI_cover("upper");
+            cout << "\n";
 
             //*BOT part--------------------
             rate_turn = rand()%101;
+            if(address_A[0] < address_ad[0]){//?upper
+                if(address_A[1] < address_ad[1]){//front
+                    if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]++;}
+                        else if(fifty_rate < 50){address_ad[1]++;}
+                    }
+                    else if(A.easy[address_ad[0-1]][address_ad[1]] == 1){address_ad[1]--;}
+                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]++;}
+                    else{
+                        fifty_rate = rand()%101;
+                        if(fifty_rate >= 50){address_ad[0]--;}
+                        else if(fifty_rate < 50){address_ad[1]--;}
+                    }
+                }
+                else if(address_A[1] > address_ad[1]){//back
+                }
+                else if(address_A[1] == address_ad[1]){//in line
+                }
+            }
+            else if(address_A[0] > address_ad[0]){//?lower
+                if(address_A[1] < address_ad[1]){//front
+                }
+                else if(address_A[1] > address_ad[1]){//back
+                }
+                else if(address_A[1] == address_ad[1]){//in line
+                }
+            }
+            else if(address_A[0] == address_ad[0]){//?in line
+                if(address_A[1] < address_ad[1]){//front
+                }
+                else if(address_A[1] > address_ad[1]){//back
+                }
+                else if(address_A[1] == address_ad[1]){/*losser*/}
+            }
         }
         break;
         //--------------------
