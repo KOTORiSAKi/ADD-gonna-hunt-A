@@ -92,16 +92,16 @@ class map{
                           {0,1,1,1,1,1,1,1,1,1,1,1,1},//1
                           {0,1,0,0,0,0,0,0,0,0,0,0,1},//2
                           {0,1,0,1,1,1,0,1,1,0,0,0,1},//3
-                          {0,1,0,0,1,0,0,0,1,0,0,1,1},//4
-                          {0,1,0,0,0,0,1,0,0,0,1,1,1},//5
+                          {0,1,0,1,1,0,0,0,1,0,0,1,1},//4
+                          {0,1,0,1,0,0,1,0,0,0,1,1,1},//5
                           {0,1,0,0,0,1,1,1,0,0,0,1,1},//6
                           {0,1,1,0,0,0,1,0,0,0,0,1,1},//7
-                          {0,1,1,0,0,0,0,0,1,1,0,0,1},//8
-                          {0,1,0,0,0,1,0,0,0,0,0,0,1},//9
-                          {0,1,0,0,0,1,1,0,0,0,0,0,1},//10
+                          {0,1,0,0,0,0,0,0,1,1,0,0,1},//8
+                          {0,1,0,1,0,1,0,0,0,0,0,0,1},//9
+                          {0,1,0,0,0,1,1,0,0,1,1,0,1},//10
                           {0,1,0,0,1,1,1,1,0,0,0,0,1},//11
                           {0,1,1,1,1,1,1,1,1,1,1,1,1}};//12
-    int hard[18][18];
+    int hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},};
 };
 //------------------
 char door = 219;
@@ -493,13 +493,13 @@ void bot_brain(short lvl){
         for(int i = 1; i <= time_turn; i++){
             if(address_A[0] < address_ad[0]){//?upper
                 if(address_A[1] < address_ad[1]){//front
-                    if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){
+                    if(A.hard[address_ad[0]-1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]-1] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]++;}
                         else if(fifty_rate < 50){address_ad[1]++;}
                     }
-                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]--;}
-                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]--;}
+                    else if(A.hard[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]--;}
+                    else if(A.hard[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]--;}
                     else{
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]--;}
@@ -507,13 +507,13 @@ void bot_brain(short lvl){
                     }
                 }
                 else if(address_A[1] > address_ad[1]){//back
-                    if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){
+                    if(A.hard[address_ad[0]-1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]+1] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]++;}
                         else if(fifty_rate < 50){address_ad[1]--;}
                     }
-                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]++;}
-                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]--;}
+                    else if(A.hard[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]++;}
+                    else if(A.hard[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]--;}
                     else{
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]--;}
@@ -521,10 +521,10 @@ void bot_brain(short lvl){
                     }
                 }
                 else if(address_A[1] == address_ad[1]){//in line
-                    if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]++;}
-                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[1]--;}
-                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[1]++;}
-                    else if(A.easy[address_ad[0]-1][address_ad[1]] == 1){
+                    if(A.hard[address_ad[0]][address_ad[1]-1] == 1 && A.hard[address_ad[0]-1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]++;}
+                    else if(A.hard[address_ad[0]-1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]+1] == 1){address_ad[1]--;}
+                    else if(A.hard[address_ad[0]-1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]-1] == 1){address_ad[1]++;}
+                    else if(A.hard[address_ad[0]-1][address_ad[1]] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[1]--;}
                         else if(fifty_rate < 50){address_ad[1]++;}
@@ -534,13 +534,13 @@ void bot_brain(short lvl){
             }
             else if(address_A[0] > address_ad[0]){//?lower
                 if(address_A[1] < address_ad[1]){//front
-                    if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){
+                    if(A.hard[address_ad[0]][address_ad[1]-1] == 1 && A.hard[address_ad[0]+1][address_ad[1]] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]--;}
                         else if(fifty_rate < 50){address_ad[1]++;}
                     }
-                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]++;}
-                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[1]--;}
+                    else if(A.hard[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]++;}
+                    else if(A.hard[address_ad[0]+1][address_ad[1]] == 1){address_ad[1]--;}
                     else{
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]++;}
@@ -548,13 +548,13 @@ void bot_brain(short lvl){
                     }
                 }
                 else if(address_A[1] > address_ad[1]){//back
-                    if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){
+                    if(A.hard[address_ad[0]][address_ad[1]+1] == 1 && A.hard[address_ad[0]+1][address_ad[1]] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]--;}
                         else if(fifty_rate < 50){address_ad[1]--;}
                     }
-                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[1]++;}
-                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]++;}
+                    else if(A.hard[address_ad[0]+1][address_ad[1]] == 1){address_ad[1]++;}
+                    else if(A.hard[address_ad[0]][address_ad[1]+1] == 1){address_ad[0]++;}
                     else{
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]++;}
@@ -562,10 +562,10 @@ void bot_brain(short lvl){
                     }
                 }
                 else if(address_A[1] == address_ad[1]){//in line
-                    if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]--;}
-                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1){address_ad[1]--;}
-                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1){address_ad[1]++;}
-                    else if(A.easy[address_ad[0]+1][address_ad[1]] == 1){
+                    if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.hard[address_ad[0]+1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]-1] == 1){address_ad[0]--;}
+                    else if(A.hard[address_ad[0]+1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]+1] == 1){address_ad[1]--;}
+                    else if(A.hard[address_ad[0]+1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]-1] == 1){address_ad[1]++;}
+                    else if(A.hard[address_ad[0]+1][address_ad[1]] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[1]--;}
                         else if(fifty_rate < 50){address_ad[1]++;}
@@ -575,10 +575,10 @@ void bot_brain(short lvl){
             }
             else if(address_A[0] == address_ad[0]){//?in line
                 if(address_A[1] < address_ad[1]){//front
-                    if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]++;}
-                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[0]--;}
-                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[0]++;}
-                    else if(A.easy[address_ad[0]][address_ad[1]-1] == 1){
+                    if(A.hard[address_ad[0]+1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]-1] == 1 && A.hard[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]++;}
+                    else if(A.hard[address_ad[0]][address_ad[1]-1] == 1 && A.hard[address_ad[0]+1][address_ad[1]] == 1){address_ad[0]--;}
+                    else if(A.hard[address_ad[0]][address_ad[1]-1] == 1 && A.hard[address_ad[0]-1][address_ad[1]] == 1){address_ad[0]++;}
+                    else if(A.hard[address_ad[0]][address_ad[1]-1] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]++;}
                         else if(fifty_rate < 50){address_ad[0]--;}
@@ -586,10 +586,10 @@ void bot_brain(short lvl){
                     else{address_ad[1]--;}
                 }
                 else if(address_A[1] > address_ad[1]){//back
-                    if(A.easy[address_ad[0]+1][address_ad[1]] == 1 && A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]--;}
-                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]-1][address_ad[1]] == 1){address_ad[0]++;}
-                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1 && A.easy[address_ad[0]+1][address_ad[1]] == 1){address_ad[0]--;}
-                    else if(A.easy[address_ad[0]][address_ad[1]+1] == 1){
+                    if(A.hard[address_ad[0]+1][address_ad[1]] == 1 && A.hard[address_ad[0]][address_ad[1]+1] == 1 && A.hard[address_ad[0]-1][address_ad[1]] == 1){address_ad[1]--;}
+                    else if(A.hard[address_ad[0]][address_ad[1]+1] == 1 && A.hard[address_ad[0]-1][address_ad[1]] == 1){address_ad[0]++;}
+                    else if(A.hard[address_ad[0]][address_ad[1]+1] == 1 && A.hard[address_ad[0]+1][address_ad[1]] == 1){address_ad[0]--;}
+                    else if(A.hard[address_ad[0]][address_ad[1]+1] == 1){
                         fifty_rate = rand()%101;
                         if(fifty_rate >= 50){address_ad[0]++;}
                         else if(fifty_rate < 50){address_ad[0]--;}
