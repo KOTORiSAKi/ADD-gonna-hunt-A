@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <conio.h>
+#include <windows.h> 
 
 using namespace std;
 
@@ -60,6 +61,7 @@ void UI_loadingBar(){
     for (int i = 0; i < total_steps; i++) {
         cout << "#";
     }
+    system("color 02");
     cout << "] 100\% loaded" << endl; 
     cout << "\nLoading complete!" << endl;
     this_thread::sleep_for(chrono::milliseconds(200));
@@ -101,7 +103,25 @@ class map{
                           {0,1,0,0,0,1,1,0,0,1,1,0,1},//10
                           {0,1,0,0,1,1,1,1,0,0,0,0,1},//11
                           {0,1,1,1,1,1,1,1,1,1,1,1,1}};//12
-    int hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},};
+                          
+    int hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},//1
+                        {0,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,1,1},//2
+                        {0,1,0,1,1,0,0,0,0,1,1,1,1,0,0,1,1,1},//3
+                        {0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,1,1},//4
+                        {0,1,0,1,1,0,0,1,0,0,0,0,0,1,1,0,0,1},//5
+                        {0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1},//6
+                        {0,1,1,1,0,0,1,1,0,1,1,1,1,0,0,0,0,1},//7
+                        {0,1,0,0,0,0,1,0,0,0,1,1,0,0,0,1,1,1},//8
+                        {0,1,0,1,1,0,1,0,0,0,0,1,0,1,0,0,0,1},//9
+                        {0,1,0,0,1,0,1,1,0,1,0,0,0,1,0,1,0,1},//10
+                        {0,1,0,0,1,0,0,0,0,0,0,1,0,1,0,1,0,1},//11
+                        {0,1,1,0,1,0,1,0,1,0,0,1,0,0,0,0,0,1},//12
+                        {0,1,0,0,0,0,1,0,1,0,0,1,1,1,0,1,1,1},//13
+                        {0,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,1},//14
+                        {0,1,0,0,0,0,1,1,1,0,0,0,0,0,1,1,0,1},//15
+                        {0,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,1},//16
+                        {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};//17
 };
 //------------------
 char door = 219;
@@ -116,11 +136,13 @@ int main(){
     //!---------------------
     UI_hello();
     FUNC_delay(1000);
+    system("color 04");
     UI_name(1);
     FUNC_delay(200);
     UI_loadingBar();
     UI_cover("upper");
     cout << "\n\tPress Enter..\n\n\n"; getchar();
+    system("color 07");
     //!----------------------
     startMenu();
 }
@@ -189,7 +211,7 @@ void credits(){
 
 void choosingMode(){
     string choice1;
-    short rate[4] = {0,10,30,60};
+    short rate[4] = {0,10,30,45};
     bool checker_1st_time = 0;
     while(1){
         system("cls");//!clear
@@ -227,40 +249,40 @@ void render_map(short lvl, bool losser){
         case 1:
         for(int y = 1; y <= maxSpace[lvl]; y++){
             for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << "   A";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << "   @";}
-                else if(address_end[0] == y && address_end[1] == x){cout << "   " << door ;}
-                else if(A.easy[y][x] == 1){cout << "   #";}
-                else if(A.easy[y][x] == 0){cout << "   .";}
+                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
+                else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
+                else if(address_end[0] == y && address_end[1] == x){cout << "  " << door << " ";}
+                else if(A.easy[y][x] == 1){cout << "  # ";}
+                else if(A.easy[y][x] == 0){cout << "  . ";}
             }cout << endl << endl;
         }
         break;
         case 2:
         for(int y = 1; y <= maxSpace[lvl]; y++){
             for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << "   A";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << "   @";}
-                else if(address_end[0] == y && address_end[1] == x){cout << "   " << door ;}
-                else if(A.medium[y][x] == 1){cout << "   #";}
-                else if(A.medium[y][x] == 0){cout << "   .";}
+                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
+                else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
+                else if(address_end[0] == y && address_end[1] == x){cout << "  " << door << " ";}
+                else if(A.medium[y][x] == 1){cout << "  # ";}
+                else if(A.medium[y][x] == 0){cout << "  . ";}
             }cout << endl << endl;
         }
         break;
         case 3:
         for(int y = 1; y <= maxSpace[lvl]; y++){
             for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << "   A";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << "   @";}
-                else if(address_end[0] == y && address_end[1] == x){cout << "   " << door ;}
-                else if(A.hard[y][x] == 1){cout << "   #";}
-                else if(A.hard[y][x] == 0){cout << "   .";}
+                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
+                else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
+                else if(address_end[0] == y && address_end[1] == x){cout << "  " << door << " ";}
+                else if(A.hard[y][x] == 1){cout << "  # ";}
+                else if(A.hard[y][x] == 0){cout << "  . ";}
             }cout << endl << endl;
         }
         break;
     }
 }
 void bot_brain(short lvl){
-    short rate[4] = {0,10,30,60};
+    short rate[4] = {0,10,30,45};
     map A;
     short rate_turn, fifty_rate, time_turn = 1;
     rate_turn = rand()%101;
@@ -658,25 +680,25 @@ void main_logic(short lvl){
                 case 'w':
                 case 'W':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage1;}
+                    if(A.easy[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage1;}
                     else{address_A[0] -= 1; click_counting++;}
                    break;
                 case 'a':
                 case 'A':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage1;}
+                    if(A.easy[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage1;}
                     else{address_A[1] -= 1; click_counting++;}
                     break;
                 case 's':
                 case 'S':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage1;}
+                    if(A.easy[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage1;}
                     else{address_A[0] += 1; click_counting++;}
                     break;
                 case 'd':
                 case 'D':
                     system("cls");//!clear
-                    if(A.easy[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage1;}
+                    if(A.easy[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage1;}
                     else{address_A[1] += 1; click_counting++;}
                     break;
                 case 27://escape
@@ -709,6 +731,7 @@ void main_logic(short lvl){
                 system("cls");//!clear
                 UI_cover("upper");
                 cout << endl << endl;
+                system("color 04");
                 render_map(lvl,1);
                 UI_cover("lower");
                 FUNC_delay(500);
@@ -764,25 +787,25 @@ void main_logic(short lvl){
                 case 'w':
                 case 'W':
                     system("cls");//!clear
-                    if(A.medium[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage2;}
+                    if(A.medium[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage2;}
                     else{address_A[0] -= 1; click_counting++;}
                    break;
                 case 'a':
                 case 'A':
                     system("cls");//!clear
-                    if(A.medium[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage2;}
+                    if(A.medium[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage2;}
                     else{address_A[1] -= 1; click_counting++;}
                     break;
                 case 's':
                 case 'S':
                     system("cls");//!clear
-                    if(A.medium[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage2;}
+                    if(A.medium[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage2;}
                     else{address_A[0] += 1; click_counting++;}
                     break;
                 case 'd':
                 case 'D':
                     system("cls");//!clear
-                    if(A.medium[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage2;}
+                    if(A.medium[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage2;}
                     else{address_A[1] += 1; click_counting++;}
                     break;
                 case 27://escape
@@ -815,6 +838,7 @@ void main_logic(short lvl){
                 system("cls");//!clear
                 UI_cover("upper");
                 cout << endl << endl;
+                system("color 04");
                 render_map(lvl,1);
                 UI_cover("lower");
                 FUNC_delay(500);
@@ -870,25 +894,25 @@ void main_logic(short lvl){
                 case 'w':
                 case 'W':
                     system("cls");//!clear
-                    if(A.hard[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage3;}
+                    if(A.hard[address_A[0]-1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage3;}
                     else{address_A[0] -= 1; click_counting++;}
                    break;
                 case 'a':
                 case 'A':
                     system("cls");//!clear
-                    if(A.hard[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage3;}
+                    if(A.hard[address_A[0]][address_A[1]-1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage3;}
                     else{address_A[1] -= 1; click_counting++;}
                     break;
                 case 's':
                 case 'S':
                     system("cls");//!clear
-                    if(A.hard[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage3;}
+                    if(A.hard[address_A[0]+1][address_A[1]] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage3;}
                     else{address_A[0] += 1; click_counting++;}
                     break;
                 case 'd':
                 case 'D':
                     system("cls");//!clear
-                    if(A.hard[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n"; goto error_usage3;}
+                    if(A.hard[address_A[0]][address_A[1]+1] == 1){UI_cover("upper"); cout << "Unable to go up there!\n\n"; goto error_usage3;}
                     else{address_A[1] += 1; click_counting++;}
                     break;
                 case 27://escape
@@ -922,6 +946,7 @@ void main_logic(short lvl){
                 system("cls");//!clear
                 UI_cover("upper");
                 cout << endl << endl;
+                system("color 04");
                 render_map(lvl,1);
                 UI_cover("lower");
                 FUNC_delay(500);
@@ -967,7 +992,8 @@ void win_game(short clicked){
 }
 
 void loss_game(){
-        system("cls");//!clear
+    system("color 07");
+    system("cls");//!clear
     cout << "\n\n\n/====================================\\" << endl;
     cout << "\\====================================/" << endl;
     FUNC_delay(200);
