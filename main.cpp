@@ -132,7 +132,7 @@ char door = 219;
 short address_ad[2];
 short address_A[2];
 short address_end[2];
-
+bool debugger1;
 //------------------
 
 int main(){
@@ -169,6 +169,8 @@ void startMenu(){
         if(choice1.compare("1") == 0 || choice1.compare("2") == 0 
         || choice1.compare("3") == 0 || choice1.compare("4") == 0){getchar(); break;}
         checker_1st_time = 1;
+        if(choice1.compare("debugger1:activate") == 0){debugger1 = 1; checker_1st_time = 0;}
+        if(choice1.compare("debugger1:deactivate") == 0){debugger1 = 0; checker_1st_time = 0;}
     }
     switch(choice1[0]){
         case '1':startMenu();
@@ -677,7 +679,9 @@ void main_logic(short lvl){
             error_usage1:
             render_map(lvl,0);
             UI_cover("lower");
-            //cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
+            if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
+                                    << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
+                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0];}
             char input; checker = 0;
             input = _getch();
             switch (input) {
@@ -784,7 +788,9 @@ void main_logic(short lvl){
             error_usage2:
             render_map(lvl,0);
             UI_cover("lower");
-            //cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
+            if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
+                                    << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
+                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0];}
             char input; checker = 0;
             input = _getch();
             switch (input) {
@@ -891,7 +897,9 @@ void main_logic(short lvl){
             error_usage3:
             render_map(lvl,0);
             UI_cover("lower");
-            //cout << "Address of A => [x] : " << address_A[1] << "[y] : " << address_A[0] << endl;//debugger
+            if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
+                                    << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
+                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0];}
             char input; checker = 0;
             input = _getch();
             switch (input) {
