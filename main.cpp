@@ -72,7 +72,7 @@ void startMenu();//*rendered start menu and require the chosen
 void credits();//*to reveal credits aboutu this project
 void choosingMode();//*to choose mode before start playing
 void main_logic(short);//*easy mode logics
-void render_map(short,bool);//*to render map
+void render_map(short,bool,short);//*to render map
 void bot_brain(short);//*processing of bot
 void win_game(short);//*when player win the game
 void loss_game();//*when player loss the game
@@ -81,7 +81,7 @@ void loss_game();//*when player loss the game
 //------------------
 class map{
     public:
-    int easy[8][8] = {{0,0,0,0,0,0,0,0},
+    short easy[8][8] = {{0,0,0,0,0,0,0,0},
                       {0,1,1,1,1,1,1,1},//1
                       {0,1,0,0,0,0,0,1},//2
                       {0,1,0,0,1,0,0,1},//3
@@ -90,7 +90,7 @@ class map{
                       {0,1,0,0,0,0,1,1},//6
                       {0,1,1,1,1,1,1,1}};//7
 
-    int medium[13][13] = {{0,0,0,0,0,0,0,0,0,0,0,0,0},
+    short medium[13][13] = {{0,0,0,0,0,0,0,0,0,0,0,0,0},
                           {0,1,1,1,1,1,1,1,1,1,1,1,1},//1
                           {0,1,0,0,0,0,0,0,0,0,0,0,1},//2
                           {0,1,0,1,1,1,0,1,1,0,0,0,1},//3
@@ -104,7 +104,7 @@ class map{
                           {0,1,0,0,1,1,1,1,0,0,0,0,1},//11
                           {0,1,1,1,1,1,1,1,1,1,1,1,1}};//12
                           
-    int hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    short hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},//1
                         {0,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,1,1},//2
                         {0,1,0,1,1,0,0,0,0,1,1,1,1,0,0,1,1,1},//3
@@ -248,7 +248,7 @@ void choosingMode(){
     }
 }
 
-void render_map(short lvl, bool losser){
+void render_map(short lvl, bool losser, short clicking){
     map A;
     short maxSpace[4] = {0,7,12,17};
     switch(lvl){
@@ -268,7 +268,7 @@ void render_map(short lvl, bool losser){
             for(int x = 1; x <= maxSpace[lvl]; x++){
                 if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
                 else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
-                else if(address_end[0] == y && address_end[1] == x){cout << "  " << door << " ";}
+                else if(address_end[0] == y && address_end[1] == x && clicking >= 3){cout << "  " << door << " ";}
                 else if(A.medium[y][x] == 1){cout << "  # ";}
                 else if(A.medium[y][x] == 0){cout << "  . ";}
             }cout << endl << endl;
@@ -279,7 +279,7 @@ void render_map(short lvl, bool losser){
             for(int x = 1; x <= maxSpace[lvl]; x++){
                 if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
                 else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
-                else if(address_end[0] == y && address_end[1] == x){cout << "  " << door << " ";}
+                else if(address_end[0] == y && address_end[1] == x && clicking >= 8){cout << "  " << door << " ";}
                 else if(A.hard[y][x] == 1){cout << "  # ";}
                 else if(A.hard[y][x] == 0){cout << "  . ";}
             }cout << endl << endl;
@@ -677,7 +677,7 @@ void main_logic(short lvl){
         cout << endl << endl;
         while(1){
             error_usage1:
-            render_map(lvl,0);
+            render_map(lvl,0,0);
             UI_cover("lower");
             if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
@@ -727,7 +727,7 @@ void main_logic(short lvl){
             }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << endl << endl;
-                render_map(lvl,0);
+                render_map(lvl,0,0);
                 UI_cover("lower");
                 FUNC_delay(500);
                 win_game(click_counting);
@@ -740,13 +740,13 @@ void main_logic(short lvl){
                 UI_cover("upper");
                 cout << endl << endl;
                 system("color 04");
-                render_map(lvl,1);
+                render_map(lvl,1,0);
                 UI_cover("lower");
                 FUNC_delay(500);
                 loss_game();
             }
             UI_cover("upper");
-            cout << "\n";
+            cout << "\n\n";
         }
         break;
         //!----------------------------------------------------------------------
@@ -775,6 +775,8 @@ void main_logic(short lvl){
             address_end[1] = rand()%maxSpace[lvl]+1;
             ++count;
             if(count >= 5){goto reset_data2;}
+            if((pow(address_A[0]-address_end[0],2) < pow(5,2) && pow(address_A[1]-address_end[1],2) < pow(5,2))
+                || (pow(address_ad[0]-address_end[0],2) < pow(5,2) && pow(address_ad[1]-address_end[1],2) < pow(5,2))){continue;}
             if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
             else if(A.medium[address_end[0]][address_end[1]] == 0
                && address_end[0] != address_A[0] && address_end[1] != address_A[1]
@@ -783,10 +785,11 @@ void main_logic(short lvl){
         //--------------------
         system("cls");//!clear
         UI_cover("upper");
-        cout << endl << endl;
+        if(click_counting < 3){cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";}
+        else{cout << "\n\n";}
         while(1){
             error_usage2:
-            render_map(lvl,0);
+            render_map(lvl,0,click_counting);
             UI_cover("lower");
             if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
@@ -836,7 +839,7 @@ void main_logic(short lvl){
             }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << endl << endl;
-                render_map(lvl,0);
+                render_map(lvl,0,click_counting);
                 UI_cover("lower");
                 FUNC_delay(500);
                 win_game(click_counting);
@@ -849,13 +852,14 @@ void main_logic(short lvl){
                 UI_cover("upper");
                 cout << endl << endl;
                 system("color 04");
-                render_map(lvl,1);
+                render_map(lvl,1,click_counting);
                 UI_cover("lower");
                 FUNC_delay(500);
                 loss_game();
             }
             UI_cover("upper");
-            cout << "\n";
+            if(click_counting < 3){cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";}
+            else{cout << "\n\n";}
         }
         break;
         //!----------------------------------------------------------------------
@@ -884,6 +888,8 @@ void main_logic(short lvl){
             address_end[1] = rand()%maxSpace[lvl]+1;
             ++count;
             if(count >= 5){goto reset_data3;}
+            if((pow(address_A[0]-address_end[0],2) < pow(8,2) && pow(address_A[1]-address_end[1],2) < pow(8,2))
+                || (pow(address_ad[0]-address_end[0],2) < pow(8,2) && pow(address_ad[1]-address_end[1],2) < pow(8,2))){continue;}
             if(pow(address_end[0] - address_A[0],2) == 1 || pow(address_end[1] - address_A[1],2) == 1){continue;}
             else if(A.hard[address_end[0]][address_end[1]] == 0
                && address_end[0] != address_A[0] && address_end[1] != address_A[1]
@@ -892,10 +898,11 @@ void main_logic(short lvl){
         //--------------------
         system("cls");//!clear
         UI_cover("upper");
-        cout << endl << endl;
+        if(click_counting < 8){cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";}
+        else{cout << "\n\n";}
         while(1){
             error_usage3:
-            render_map(lvl,0);
+            render_map(lvl,0,click_counting);
             UI_cover("lower");
             if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
@@ -945,7 +952,7 @@ void main_logic(short lvl){
             }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << endl << endl;
-                render_map(lvl,0);
+                render_map(lvl,0,click_counting);
                 UI_cover("lower");
                 FUNC_delay(500);
                 win_game(click_counting);
@@ -959,13 +966,14 @@ void main_logic(short lvl){
                 UI_cover("upper");
                 cout << endl << endl;
                 system("color 04");
-                render_map(lvl,1);
+                render_map(lvl,1,click_counting);
                 UI_cover("lower");
                 FUNC_delay(500);
                 loss_game();
             }
             UI_cover("upper");
-            cout << "\n";
+            if(click_counting < 8){cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";}
+            else{cout << "\n\n";}
         }
         break;
     }
