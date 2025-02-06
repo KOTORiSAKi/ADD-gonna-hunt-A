@@ -13,12 +13,17 @@ using namespace std;
 
 void FUNC_delay(int mili){this_thread::sleep_for(chrono::milliseconds(mili));}
 
+void setColor(int textColor) { 
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); 
+    SetConsoleTextAttribute(hConsole, textColor); 
+} 
+
 void UI_exit(){
     system("cls");//!clear
     for(int i = 8; i >= 0; --i){
         cout << "                                               \\ \n ____________________________________________/_/\n/\n";
         for(int j = 1; j <= i; j++){cout << endl;}
-        cout << "\\____________________________________________.o@< .oA";
+        cout << "\n\n\\____________________________________________"; setColor(4); cout << ".o@< "; setColor(2); cout << ".oA"; setColor(7);
         this_thread::sleep_for(chrono::milliseconds(50));
         if(i != 0){system("cls");}
         else if(i == 0){this_thread::sleep_for(chrono::milliseconds(200)); system("cls");}
@@ -44,12 +49,13 @@ void UI_name(short clear){
 
 void UI_cover(string option){
     if(option.compare("upper") == 0){cout << "                                               \\ \n ____________________________________________/_/\n/\n";}
-    if(option.compare("lower") == 0){cout << "\n\n\\____________________________________________.o@< .oA";}
+    if(option.compare("lower") == 0){cout << "\n\n\\____________________________________________"; setColor(4); cout << ".o@< "; setColor(2); cout << ".oA"; setColor(7);}
 }
 
 void UI_loadingBar(){
     const int total_steps = 35;
     int current_step = 0;
+    setColor(4);
     cout << "Loading...";
     while (current_step <= total_steps) {
         cout << "\rLoading[" << string(current_step, '>') << string(total_steps - current_step, ' ') << "]"; 
@@ -57,14 +63,15 @@ void UI_loadingBar(){
         this_thread::sleep_for(chrono::milliseconds(10));
         current_step++;
     }
+    setColor(2);
     cout << "\r[";
     for (int i = 0; i < total_steps; i++) {
         cout << "#";
     }
-    system("color 02");
     cout << "] 100\% loaded" << endl; 
     cout << "\nLoading complete!" << endl;
     this_thread::sleep_for(chrono::milliseconds(200));
+    setColor(7);
 }
 
 //------------------
@@ -140,7 +147,6 @@ int main(){
     //!---------------------
     UI_hello();
     FUNC_delay(1000);
-    system("color 04");
     UI_name(1);
     FUNC_delay(200);
     UI_loadingBar();
@@ -217,7 +223,7 @@ void credits(){
 
 void choosingMode(){
     string choice1;
-    short rate[4] = {0,10,30,45};
+    short rate[4] = {0,10,25,30};
     bool checker_1st_time = 0;
     while(1){
         system("cls");//!clear
@@ -255,40 +261,40 @@ void render_map(short lvl, bool losser, short clicking){
         case 1:
         for(int y = 1; y <= maxSpace[lvl]; y++){
             for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
-                else if(address_end[0] == y && address_end[1] == x){cout << "  " << door << " ";}
+                if(address_A[0] == y && address_A[1] == x && losser != 1){setColor(2);cout << " [A]";setColor(7);}
+                else if(address_ad[0] == y && address_ad[1] == x){setColor(4);cout << " [@]";setColor(7);}
+                else if(address_end[0] == y && address_end[1] == x){setColor(6);cout << "  " << door << " ";setColor(7);}
                 else if(A.easy[y][x] == 1){cout << "  # ";}
-                else if(A.easy[y][x] == 0){cout << "  . ";}
+                else if(A.easy[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
             }cout << endl << endl;
         }
         break;
         case 2:
         for(int y = 1; y <= maxSpace[lvl]; y++){
             for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
-                else if(address_end[0] == y && address_end[1] == x && clicking >= 3){cout << "  " << door << " ";}
+                if(address_A[0] == y && address_A[1] == x && losser != 1){setColor(2);cout << " [A]";setColor(7);}
+                else if(address_ad[0] == y && address_ad[1] == x){setColor(4);cout << " [@]";setColor(7);}
+                else if(address_end[0] == y && address_end[1] == x && clicking >= 3){setColor(6);cout << "  " << door << " ";setColor(7);}
                 else if(A.medium[y][x] == 1){cout << "  # ";}
-                else if(A.medium[y][x] == 0){cout << "  . ";}
+                else if(A.medium[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
             }cout << endl << endl;
         }
         break;
         case 3:
         for(int y = 1; y <= maxSpace[lvl]; y++){
             for(int x = 1; x <= maxSpace[lvl]; x++){
-                if(address_A[0] == y && address_A[1] == x && losser != 1){cout << " [A]";}
-                else if(address_ad[0] == y && address_ad[1] == x){cout << " [@]";}
-                else if(address_end[0] == y && address_end[1] == x && clicking >= 8){cout << "  " << door << " ";}
+                if(address_A[0] == y && address_A[1] == x && losser != 1){setColor(2);cout << " [A]";setColor(7);}
+                else if(address_ad[0] == y && address_ad[1] == x){setColor(4);cout << " [@]";setColor(7);}
+                else if(address_end[0] == y && address_end[1] == x && clicking >= 8){setColor(6);cout << "  " << door << " ";setColor(7);}
                 else if(A.hard[y][x] == 1){cout << "  # ";}
-                else if(A.hard[y][x] == 0){cout << "  . ";}
+                else if(A.hard[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
             }cout << endl << endl;
         }
         break;
     }
 }
 void bot_brain(short lvl){
-    short rate[4] = {0,10,30,45};
+    short rate[4] = {0,10,25,40};
     map A;
     short rate_turn, fifty_rate, time_turn = 1;
     rate_turn = rand()%101;
@@ -679,9 +685,9 @@ void main_logic(short lvl){
             error_usage1:
             render_map(lvl,0,0);
             UI_cover("lower");
-            if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
+            if(debugger1 == 1){setColor(8); cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
-                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0];}
+                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0]; setColor(7);}
             char input; checker = 0;
             input = _getch();
             switch (input) {
@@ -724,7 +730,18 @@ void main_logic(short lvl){
                     UI_cover("upper");
                     cout << "Unable key!\n";
                     goto error_usage1;
-            }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
+            }
+            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
+                you_dead1:
+                system("cls");//!clear
+                UI_cover("upper");
+                cout << endl << endl;
+                render_map(lvl,1,0);
+                UI_cover("lower");
+                FUNC_delay(500);
+                loss_game();
+            }
+            if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << endl << endl;
                 render_map(lvl,0,0);
@@ -735,16 +752,7 @@ void main_logic(short lvl){
             //*BOT part--------------------
             bot_brain(lvl);
             //*----------------------------
-            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
-                system("cls");//!clear
-                UI_cover("upper");
-                cout << endl << endl;
-                system("color 04");
-                render_map(lvl,1,0);
-                UI_cover("lower");
-                FUNC_delay(500);
-                loss_game();
-            }
+            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){goto you_dead1;}
             UI_cover("upper");
             cout << "\n\n";
         }
@@ -791,9 +799,9 @@ void main_logic(short lvl){
             error_usage2:
             render_map(lvl,0,click_counting);
             UI_cover("lower");
-            if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
+            if(debugger1 == 1){setColor(8); cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
-                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0];}
+                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0]; setColor(7);}
             char input; checker = 0;
             input = _getch();
             switch (input) {
@@ -836,7 +844,18 @@ void main_logic(short lvl){
                     UI_cover("upper");
                     cout << "Unable key!\n";
                     goto error_usage2;
-            }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
+            }
+            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
+                you_dead2:
+                system("cls");//!clear
+                UI_cover("upper");
+                cout << endl << endl;
+                render_map(lvl,1,click_counting);
+                UI_cover("lower");
+                FUNC_delay(500);
+                loss_game();
+            }
+            if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << endl << endl;
                 render_map(lvl,0,click_counting);
@@ -847,16 +866,7 @@ void main_logic(short lvl){
             //*BOT part--------------------
             bot_brain(lvl);
             //*----------------------------
-            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
-                system("cls");//!clear
-                UI_cover("upper");
-                cout << endl << endl;
-                system("color 04");
-                render_map(lvl,1,click_counting);
-                UI_cover("lower");
-                FUNC_delay(500);
-                loss_game();
-            }
+            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){goto you_dead2;}
             UI_cover("upper");
             if(click_counting < 3){cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";}
             else{cout << "\n\n";}
@@ -904,9 +914,9 @@ void main_logic(short lvl){
             error_usage3:
             render_map(lvl,0,click_counting);
             UI_cover("lower");
-            if(debugger1 == 1){cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
+            if(debugger1 == 1){setColor(8); cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
-                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0];}
+                                    << "\nAddress of the door => [x] : " << address_end[1] << "[y] : " << address_end[0]; setColor(7);}
             char input; checker = 0;
             input = _getch();
             switch (input) {
@@ -949,7 +959,18 @@ void main_logic(short lvl){
                     UI_cover("upper");
                     cout << "Unable key!\n";
                     goto error_usage3;
-            }if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
+            }
+            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
+                you_dead3:
+                system("cls");//!clear
+                UI_cover("upper");
+                cout << endl << endl;
+                render_map(lvl,1,click_counting);
+                UI_cover("lower");
+                FUNC_delay(500);
+                loss_game();
+            }
+            if(address_A[0] == address_end[0] && address_A[1] == address_end[1]){
                 UI_cover("upper");
                 cout << endl << endl;
                 render_map(lvl,0,click_counting);
@@ -960,17 +981,7 @@ void main_logic(short lvl){
             //*BOT part--------------------
             bot_brain(lvl);
             //*----------------------------
-            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){//!If ad hunt A
-                skip:
-                system("cls");//!clear
-                UI_cover("upper");
-                cout << endl << endl;
-                system("color 04");
-                render_map(lvl,1,click_counting);
-                UI_cover("lower");
-                FUNC_delay(500);
-                loss_game();
-            }
+            if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){goto you_dead3;}
             UI_cover("upper");
             if(click_counting < 8){cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";}
             else{cout << "\n\n";}
@@ -991,7 +1002,7 @@ void win_game(short clicked){
     system("cls");//!clear
     cout << "/====================================\\" << endl;
     cout << "                                      " << endl;
-    cout << "               YOU WON!               " << endl;
+    setColor(6); cout << "               YOU WON!               " << endl; setColor(7);
     cout << "                                      " << endl;
     cout << "                                      " << endl;
     if(clicked <= 9){cout << "  You moved " << clicked << " times to win this game  " << endl;}
@@ -1024,7 +1035,7 @@ void loss_game(){
     system("cls");//!clear
     cout << "/====================================\\" << endl;
     cout << "                                      " << endl;
-    cout << "              YOU LOSSED!               " << endl;
+    setColor(4); cout << "              YOU LOSSED!               " << endl; setColor(7);
     cout << "                                      " << endl;
     cout << "                                      " << endl;
     cout << "         You may try it again         " << endl;
