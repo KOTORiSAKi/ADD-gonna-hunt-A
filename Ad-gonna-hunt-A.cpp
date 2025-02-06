@@ -88,7 +88,7 @@ void loss_game();//*when player loss the game
 //------------------
 class map{
     public:
-    short easy[8][8] = {{0,0,0,0,0,0,0,0},
+    bool easy[8][8] = {{0,0,0,0,0,0,0,0},
                       {0,1,1,1,1,1,1,1},//1
                       {0,1,0,0,0,0,0,1},//2
                       {0,1,0,0,1,0,0,1},//3
@@ -97,7 +97,7 @@ class map{
                       {0,1,0,0,0,0,1,1},//6
                       {0,1,1,1,1,1,1,1}};//7
 
-    short medium[13][13] = {{0,0,0,0,0,0,0,0,0,0,0,0,0},
+    bool medium[13][13] = {{0,0,0,0,0,0,0,0,0,0,0,0,0},
                           {0,1,1,1,1,1,1,1,1,1,1,1,1},//1
                           {0,1,0,0,0,0,0,0,0,0,0,0,1},//2
                           {0,1,0,1,1,1,0,1,1,0,0,0,1},//3
@@ -111,7 +111,7 @@ class map{
                           {0,1,0,0,1,1,1,1,0,0,0,0,1},//11
                           {0,1,1,1,1,1,1,1,1,1,1,1,1}};//12
                           
-    short hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    bool hard[18][18] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                         {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},//1
                         {0,1,0,0,0,0,1,1,0,0,0,0,0,0,1,1,1,1},//2
                         {0,1,0,1,1,0,0,0,0,1,1,1,1,0,0,1,1,1},//3
@@ -266,7 +266,13 @@ void render_map(short lvl, bool losser, short clicking){
                 else if(address_end[0] == y && address_end[1] == x){setColor(6);cout << "  " << door << " ";setColor(7);}
                 else if(A.easy[y][x] == 1){cout << "  # ";}
                 else if(A.easy[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
-            }cout << endl << endl;
+            }if(debugger1 == 1){setColor(8);cout << "  " << y << endl << endl;setColor(7);}else{cout << endl << endl;}
+        }
+        if(debugger1 == 1){
+            for(int x = 1; x <= maxSpace[lvl]; x++){
+                if(x < 10){setColor(8);cout << "  " << x << " ";setColor(7);}
+                else{setColor(8);cout << "  " << x;setColor(7);}
+            }
         }
         break;
         case 2:
@@ -277,7 +283,13 @@ void render_map(short lvl, bool losser, short clicking){
                 else if(address_end[0] == y && address_end[1] == x && clicking >= 3){setColor(6);cout << "  " << door << " ";setColor(7);}
                 else if(A.medium[y][x] == 1){cout << "  # ";}
                 else if(A.medium[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
-            }cout << endl << endl;
+            }if(debugger1 == 1){setColor(8);cout << "  " << y << endl << endl;setColor(7);}else{cout << endl << endl;}
+        }
+        if(debugger1 == 1){
+            for(int x = 1; x <= maxSpace[lvl]; x++){
+                if(x < 10){setColor(8);cout << "  " << x << " ";setColor(7);}
+                else{setColor(8);cout << "  " << x;setColor(7);}
+            }
         }
         break;
         case 3:
@@ -288,7 +300,13 @@ void render_map(short lvl, bool losser, short clicking){
                 else if(address_end[0] == y && address_end[1] == x && clicking >= 8){setColor(6);cout << "  " << door << " ";setColor(7);}
                 else if(A.hard[y][x] == 1){cout << "  # ";}
                 else if(A.hard[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
-            }cout << endl << endl;
+            }if(debugger1 == 1){setColor(8);cout << "  " << y << endl << endl;setColor(7);}else{cout << endl << endl;}
+        }
+        if(debugger1 == 1){
+            for(int x = 1; x <= maxSpace[lvl]; x++){
+                if(x < 10){setColor(8);cout << "  " << x << " ";setColor(7);}
+                else{setColor(8);cout << "  " << x;setColor(7);}
+            }
         }
         break;
     }
@@ -720,6 +738,7 @@ void main_logic(short lvl){
                     while(1){
                         cout << "Really want to leave? (y/n) : "; getline(cin,choice2);
                         if(choice2.compare("y") == 0 || choice2.compare("n") == 0){break;}
+                        system("cls");//!clear
                     }
                     switch(choice2[0]){
                         case 'y': startMenu();
@@ -793,7 +812,7 @@ void main_logic(short lvl){
         //--------------------
         system("cls");//!clear
         UI_cover("upper");
-        if(click_counting < 3){cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";}
+        if(click_counting < 3){setColor(6);cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";setColor(7);}
         else{cout << "\n\n";}
         while(1){
             error_usage2:
@@ -834,6 +853,7 @@ void main_logic(short lvl){
                     while(1){
                         cout << "Really want to leave? (y/n) : "; getline(cin,choice2);
                         if(choice2.compare("y") == 0 || choice2.compare("n") == 0){break;}
+                        system("cls");//!clear
                     }
                     switch(choice2[0]){
                         case 'y': startMenu();
@@ -868,7 +888,7 @@ void main_logic(short lvl){
             //*----------------------------
             if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){goto you_dead2;}
             UI_cover("upper");
-            if(click_counting < 3){cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";}
+            if(click_counting < 3){setColor(6);cout << "\nThe door will be appeared in " << 3-click_counting << " turns left\n";setColor(7);}
             else{cout << "\n\n";}
         }
         break;
@@ -908,7 +928,7 @@ void main_logic(short lvl){
         //--------------------
         system("cls");//!clear
         UI_cover("upper");
-        if(click_counting < 8){cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";}
+        if(click_counting < 8){setColor(6);cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";setColor(7);}
         else{cout << "\n\n";}
         while(1){
             error_usage3:
@@ -949,6 +969,7 @@ void main_logic(short lvl){
                     while(1){
                         cout << "Really want to leave? (y/n) : "; getline(cin,choice2);
                         if(choice2.compare("y") == 0 || choice2.compare("n") == 0){break;}
+                        system("cls");//!clear
                     }
                     switch(choice2[0]){
                         case 'y': startMenu();
@@ -983,7 +1004,7 @@ void main_logic(short lvl){
             //*----------------------------
             if(address_A[0] == address_ad[0] && address_A[1] == address_ad[1]){goto you_dead3;}
             UI_cover("upper");
-            if(click_counting < 8){cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";}
+            if(click_counting < 8){setColor(6);cout << "\nThe door will be appeared in " << 8-click_counting << " turns left\n";setColor(7);}
             else{cout << "\n\n";}
         }
         break;
