@@ -830,8 +830,9 @@ void main_logic(short lvl){
             address_ad[1] = rand()%maxSpace[lvl]+1;
             ++count;
             if(count >= 5){goto reset_data2;}
-            if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
-            else if(A.medium[address_ad[0]][address_ad[1]] == 0
+            if((pow(address_ad[0] - address_A[0],2) <= pow(4,2) || pow(address_ad[1] - address_A[1],2) <= pow(4,2)) 
+            && (pow(address_ad[0] - address_A[0],2) != 0 || pow(address_ad[1] - address_A[1],2) != 0)){continue;}
+            if(A.medium[address_ad[0]][address_ad[1]] == 0
                 && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
         }count = 0;
         while(1){//random for the door
@@ -946,7 +947,8 @@ void main_logic(short lvl){
             address_ad[1] = rand()%maxSpace[lvl]+1;
             ++count;
             if(count >= 5){goto reset_data3;}
-            if(pow(address_ad[0] - address_A[0],2) == 1 || pow(address_ad[1] - address_A[1],2) == 1){continue;}
+            if((pow(address_ad[0] - address_A[0],2) <= pow(7,2) || pow(address_ad[1] - address_A[1],2) <= pow(7,2)) 
+            && (pow(address_ad[0] - address_A[0],2) != 0 || pow(address_ad[1] - address_A[1],2) != 0)){continue;}
             else if(A.hard[address_ad[0]][address_ad[1]] == 0
                 && address_ad[0] != address_A[0] && address_ad[1] != address_A[1]){break;}
         }count = 0;
