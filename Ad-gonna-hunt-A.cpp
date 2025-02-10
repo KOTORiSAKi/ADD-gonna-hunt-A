@@ -133,13 +133,49 @@ class map{
     void guider();
 };
 //------------------
-void map::guider(){}
-//------------------
 char door = 219;
 short address_ad[2];
 short address_A[2];
 short address_end[2];
 bool debugger1;
+bool not_first_time_played = 0;
+
+//------------------
+void map::guider(){
+    map A;
+    short maxSpace[4] = {0,7,12,17};
+    system("cls");//!clear
+    UI_cover("upper");
+    FUNC_delay(200);
+    cout << "\n\t[A] is player.     [@] is bot." << endl;
+    cout << "\t[@] will follow [A]. Don't let [@] hunt you." << endl;
+    cout << "\t " << door << " is your way to survive from [@]" << endl << endl;
+    cout << "\t# is a wall block. So you can not stand there." << endl;
+    cout << "\t. is a space block. So you can stand there." << endl;
+    setColor(4);
+    cout << "\tWarning! Bot may turn two times with random rate that beyorn to lvl you chose." << endl;
+    setColor(7);
+    cout << endl << "\tControl by WASD" << endl
+         << "\tW -> go up" << endl
+         << "\tA -> go left" << endl
+         << "\tS -> go down" << endl
+         << "\tD -> go right" << endl;
+    cout << "\n\n\tExample for easy map" << endl << endl;
+    for(int y = 1; y <= maxSpace[1]; y++){
+        cout << "\t";
+        for(int x = 1; x <= maxSpace[1]; x++){
+            if(address_A[0] == y && address_A[1] == x){setColor(2);cout << " [A]";setColor(7);}
+            else if(address_ad[0] == y && address_ad[1] == x){setColor(4);cout << " [@]";setColor(7);}
+            else if(address_end[0] == y && address_end[1] == x){setColor(6);cout << "  " << door << " ";setColor(7);}
+            else if(A.easy[y][x] == 1){cout << "  # ";}
+            else if(A.easy[y][x] == 0){setColor(8);cout << "  . ";setColor(7);}
+        }if(debugger1 == 1){setColor(8);cout << "  " << y << endl << endl;setColor(7);}else{cout << endl << endl;}
+    }
+    FUNC_delay(200);
+    UI_cover("lower");
+    cout << "\n\n\tPress Enter.."; getchar();
+    startMenu();
+}
 //------------------
 
 int main(){
@@ -158,6 +194,7 @@ int main(){
 }
 
 void startMenu(){
+    map A;
     string choice1;
     bool checker_1st_time = 0;
     while(1){
@@ -179,7 +216,7 @@ void startMenu(){
         if(choice1.compare("debugger1:deactivate") == 0){debugger1 = 0; checker_1st_time = 0;}
     }
     switch(choice1[0]){
-        case '1':startMenu();
+        case '1': A.guider();
         break;
         case '2':choosingMode();
         break;
@@ -1040,6 +1077,19 @@ void win_game(short clicked){
     cout << "\n\n\n/====================================\\" << endl;
     cout << "\\====================================/" << endl;
     FUNC_delay(400);
+    //---------------------
+    string choice1;
+    while(1){
+        system("cls");//!clear
+        cout << "Want to play again? (y/n) : "; getline(cin,choice1);
+        if(choice1.compare("y") == 0 || choice1.compare("n") == 0){break;}
+    }
+    switch(choice1[0]){
+        case 'y':choosingMode();
+        break;
+        case 'n':startMenu();
+        break;
+    }
     startMenu();
 }
 
@@ -1072,5 +1122,32 @@ void loss_game(){
     cout << "\n\n\n/====================================\\" << endl;
     cout << "\\====================================/" << endl;
     FUNC_delay(400);
+    //-----------------------------
+    string choice1;
+    if(not_first_time_played == 0){
+        not_first_time_played = 1;
+        map A;
+        while(1){
+            system("cls");//!clear
+            cout << "You may have to watch out for gameplay guider. \nWant to see it now? (y/n) : "; getline(cin,choice1);
+            if(choice1.compare("y") == 0 || choice1.compare("n") == 0){break;}
+        }
+        switch(choice1[0]){
+            case 'y':A.guider();
+            break;
+            case 'n':break;
+        }
+    }
+    while(1){
+        system("cls");//!clear
+        cout << "Want to play again? (y/n) : "; getline(cin,choice1);
+        if(choice1.compare("y") == 0 || choice1.compare("n") == 0){break;}
+    }
+    switch(choice1[0]){
+        case 'y':choosingMode();
+        break;
+        case 'n':startMenu();
+        break;
+    }
     startMenu();
 }
