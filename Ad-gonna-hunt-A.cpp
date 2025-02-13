@@ -739,6 +739,7 @@ void main_logic(short lvl){
         while(1){
             error_usage1:
             render_map(lvl,0,0);
+            cout << "W A S D to control [A]" << endl;
             UI_cover("lower");
             if(debugger1 == 1){setColor(8); cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
@@ -855,6 +856,7 @@ void main_logic(short lvl){
         while(1){
             error_usage2:
             render_map(lvl,0,click_counting);
+            cout << "W A S D to control [A]" << endl;
             UI_cover("lower");
             if(debugger1 == 1){setColor(8); cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
@@ -972,6 +974,7 @@ void main_logic(short lvl){
         while(1){
             error_usage3:
             render_map(lvl,0,click_counting);
+            cout << "W A S D to control [A]" << endl;
             UI_cover("lower");
             if(debugger1 == 1){setColor(8); cout << "\nAddress of A => [x] : " << address_A[1] << "[y] : " << address_A[0]
                                     << "\nAddress of @ => [x] : " << address_ad[1] << "[y] : " << address_ad[0]
