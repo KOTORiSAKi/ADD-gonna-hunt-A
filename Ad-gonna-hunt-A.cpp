@@ -310,6 +310,7 @@ void render_map(short lvl, bool losser, short clicking){
                 if(x < 10){setColor(8);cout << "  " << x << " ";setColor(7);}
                 else{setColor(8);cout << "  " << x;setColor(7);}
             }
+            cout << endl;
         }
         break;
         case 2:
@@ -327,6 +328,7 @@ void render_map(short lvl, bool losser, short clicking){
                 if(x < 10){setColor(8);cout << "  " << x << " ";setColor(7);}
                 else{setColor(8);cout << "  " << x;setColor(7);}
             }
+            cout << endl;
         }
         break;
         case 3:
@@ -344,6 +346,7 @@ void render_map(short lvl, bool losser, short clicking){
                 if(x < 10){setColor(8);cout << "  " << x << " ";setColor(7);}
                 else{setColor(8);cout << "  " << x;setColor(7);}
             }
+            cout << endl;
         }
         break;
     }
